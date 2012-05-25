@@ -1,0 +1,70 @@
+<?php
+
+if( $this->submit == '' ){
+    // User has not submitted anything.  Show a form and ask for an item and the segment
+
+    // This retrieves all the files this user owns
+    $content = file_get_contents( "http://www.algorithms.io/data/index/class/DataSources/method/files/authToken/".$this->authToken );
+    $file_list = json_decode( $content, true );
+
+    //print_r( $file_list );
+
+    // Form to ask user for what they want to get recommendations for
+    echo '<h2>Get Recommendations</h2>';
+    echo '<form method="GET" action="/photos2/recommendations">';
+    echo '<b>Item Recommendation Input:<b/><br/>';
+    echo 'Part Number:<input type="text" name="item"/><br/>';
+
+    // Output file list for segments
+    echo 'Segment File:<select name="datasource_id_seq">';
+    foreach( $file_list as $aFile ){
+
+//        if( $aFile['type'] == 'Auto Generated - Segment' )
+        if(  preg_match( '/^Auto Generated/', $aFile['type'] ) )
+            echo '<option value="'.$aFile['id_seq'].'">'.$aFile['friendly_description'].'</option>';
+
+    }
+    echo '</select><br/>';
+
+    // Output file list for the category
+    echo '<br/><br/><b>Category Recommendation Input:<b/><br/>';
+    echo 'Category File:<select name="category_datasource_id_seq">';
+    foreach( $file_list as $aFile ){
+
+        if( $aFile['type'] == 'category' )
+            echo '<option value="'.$aFile['id_seq'].'">'.$aFile['friendly_description'].'</option>';
+
+    }
+    echo '</select><br/>';
+
+    // Output file list for the Application mapping
+    echo '<br/><br/><b>Application Mapping Input:<b/><br/>';
+    echo '<!--Application: <input type="text" name="application_name" />-->
+        Application File: <select name="application_datasource_id_seq">';
+    foreach( $file_list as $aFile ){
+
+        if( $aFile['type'] == 'application-mapping' )
+            echo '<option value="'.$aFile['id_seq'].'">'.$aFile['friendly_description'].'</option>';
+
+    }
+    echo '</select><br/>';
+
+    echo '<br/><input type="submit" name="submit" value="Get Recommendations"/>';
+
+    echo '</form>';
+}
+
+//
+// User has submited an item and a segment.  Show them the recommendations
+//
+if( $this->submit == 'Get Recommendations' ){
+
+    // IFrame for the Item Recommendation
+    echo '<iframe frameborder="0" width="50%" height="50%" scrolling="no" src="http://www.imarketingb2b.com/photos2/recommendations2?item='.$this->item.'&datasource_id_seq='.$this->datasource_id_seq.'&category_datasource_id_seq='.$this->category_datasource_id_seq.'&application_datasource_id_seq='.$this->application_datasource_id_seq.'&submit=Get+Recommendations&authToken='.$this->authToken.'"></iframe> ';
+
+    // IFrame for the Category and Application Recommendation
+    echo '<iframe frameborder="0" width="100%" height="100%" scrolling="no" src="http://www.imarketingb2b.com/photos2/recommendations3?item='.$this->item.'&datasource_id_seq='.$this->datasource_id_seq.'&category_datasource_id_seq='.$this->category_datasource_id_seq.'&application_datasource_id_seq='.$this->application_datasource_id_seq.'&submit=Get+Recommendations&authToken='.$this->authToken.'"></iframe> ';
+
+}
+
+?>

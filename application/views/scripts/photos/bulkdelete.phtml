@@ -1,0 +1,38 @@
+<?php
+set_time_limit(0);
+?>
+
+
+<h2>Bulk Delete</h2>
+
+<?php
+
+if( $this->submit == 'submit' ){
+    // The user has checked off the checkbox.  Can do the appending to file
+
+    // For each check box append this file to those files
+    foreach( $this->addTo_datasource_id_seq as $aFile_id ){
+
+        $url = 'http://www.algorithms.io/data/index/class/DataSources/method/deleteAFile/authToken/'.$this->authToken.'/datasource_id_seq/'.$aFile_id;
+
+        $content = file_get_contents( $url );
+    }
+
+}
+
+$content = file_get_contents( "http://www.algorithms.io/data/index/class/DataSources/method/files/authToken/".$this->authToken );
+$fileList = json_decode( $content, true );
+//print_r( $fileList );
+
+echo '<form mothod="POST" action="/photos/bulkdelete">';
+
+// Output Checkboxes of all files this can be combined with
+foreach( $fileList as $aFile ){
+
+    echo '<input type="checkbox" name="addTo_datasource_id_seq[]" value="'.$aFile['id_seq'].'"/>'.$aFile['friendly_name'].'<br/>';
+}
+
+echo '<input type="submit" name="submit" value="submit"/><br/>';
+echo '</form>';
+
+?>

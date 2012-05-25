@@ -1,0 +1,86 @@
+<?php
+//
+// Display check list if it is able to do a query
+//
+$isLoadedUserFieldsMapping = file_get_contents( 'http://www.algorithms.io/data/index/class/Mapping/method/isLoadedUserFieldsMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq );
+$isLoadedArbitraryIdMapping = file_get_contents( 'http://www.algorithms.io/data/index/class/Mapping/method/isLoadedArbitraryIdMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq );
+
+echo '<table border="1">';
+
+echo '<tr><td>isLoadedUserFieldsMapping</td><td><a href="http://www.algorithms.io/data/index/class/Mapping/method/isLoadedUserFieldsMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'">' . $isLoadedUserFieldsMapping . '</a></td></tr>';
+    echo '<tr><td>isLoadedArbitraryIdMapping</td><td><a href="http://www.algorithms.io/data/index/class/Mapping/method/isLoadedArbitraryIdMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'">' . $isLoadedArbitraryIdMapping . '</a></td></tr>';
+
+echo '</table>';
+
+//
+// If checks is a go, display a box to let user query the system for an item
+//
+    if( preg_match( '/true/', $isLoadedUserFieldsMapping )  && preg_match( '/true/', $isLoadedArbitraryIdMapping ) ){
+        // All pre-reqs is true and user can proceed to search
+
+        echo '<br/><br/>';
+        echo '<form action="/photos/queryitem/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'" method="GET">';
+        echo 'Type: <select name="type">
+                <option value="item_id">item_id</option>
+                <option value="user_id">user_id</option>
+            </select><br/>';
+        echo 'Part to search(regex): <input type="text" name="item" value="'.$this->item.'"/><br/>';
+        echo 'Customer Name:<input type="text" name="customer_name" value="'.$this->customer_name.'"/><br/>';
+        echo '<input type="submit" name="submit" value="query"/>';
+
+        echo '</form>';
+    } else {
+
+        echo '<p>Need to Map fields and create the arbitrary mapping first before searching</p>';
+    }
+
+//
+// The user has queried the system for an item or user.  Display the item(s) that it has found and show a link to run the recommendations and
+// retrieve it back
+//
+    if( $this->submit == 'query' ){
+
+        // Using the query feed it into this api call to get back all the items that matches it
+        $url = 'http://www.algorithms.io/data/index/class/Mapping/method/getArbitraryIdMappingSearch/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/type/'.$this->type.'/item/'.urlencode( $this->item );
+echo $url;
+        $results = json_decode( file_get_contents( $url ), true );
+
+        echo '<table border="1"><tr><td>Loglikehood<br/>preference algorithm</td><td>Loglikehood<br/>NO preference algorithm</td><td>Loglikehood<br/>evaluator</td></tr>';
+
+        if( $this->type == 'item_id' ){
+            // User has queried for an item.  Find the mapping and display the links to get the actual recommendation for this part number
+
+            foreach( $results as $aRow ){
+
+                // This is with using preference algorithm
+                echo '<tr><td><a href="/photos/getrec/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/algorithm/simItemLogLikelihood/type/'.$this->type.'/field_mapped_value/'.$aRow['field_mapped_value'].'/customer_name/'.$this->customer_name.'/part_name/'.$aRow['field_original_name'].'">'.$aRow['field_original_name'].'</a></td>';
+
+                // THis is using with NO preference algorithm
+                echo '<td><a href="/photos/getrec/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/algorithm/simItemLogLikelihoodNoPref/type/'.$this->type.'/field_mapped_value/'.$aRow['field_mapped_value'].'/customer_name/'.$this->customer_name.'/part_name/'.$aRow['field_original_name'].'">'.$aRow['field_original_name'].'</a></td>';
+
+                // This is running the evaluator on this item
+                echo '<td><a href="/photos/getrec/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/algorithm/simItemLogLikelihoodNoPrefEvaluator/type/'.$this->type.'/field_mapped_value/'.$aRow['field_mapped_value'].'/customer_name/'.$this->customer_name.'/part_name/'.$aRow['field_original_name'].'">'.$aRow['field_original_name'].'</a></td></tr>'; 
+
+            }
+        }
+        if( $this->type == 'user_id' ){
+            // User has queried for an user.  
+
+            foreach( $results as $aRow ){
+                                                                                                                                       
+                // This is with using preference algorithm
+                echo '<tr><td><a href="/photos/getrec/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/algorithm/simUserLogLikelihood/type/'.$this->type.'/field_mapped_value/'.$aRow['field_mapped_value'].'/neighborhoodSize/10">'.$aRow['field_original_name'].'</a></td>';
+                                                                                                                                       
+                // THis is using with NO preference algorithm                                                                          
+                echo '<td><a href="/photos/getrec/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/algorithm/simUserLogLikelihoodNoPref/type/'.$this->type.'/field_mapped_value/'.$aRow['field_mapped_value'].'/neighborhoodSize/10">'.$aRow['field_original_name'].'</a></td>';
+
+                // This is running the evaluator on this item                                                                          
+                echo '<td><a href="/photos/getrec/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/algorithm/simUserLogLikelihoodNoPrefEvaluator/type/'.$this->type.'/field_mapped_value/'.$aRow['field_mapped_value'].'/neighborhoodSize/10">'.$aRow['field_original_name'].'</a></td></tr>';   
+            }    
+        }
+        echo '</table>';
+    }
+
+
+
+?>

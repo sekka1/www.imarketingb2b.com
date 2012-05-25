@@ -1,0 +1,127 @@
+<?php
+
+//
+// Build URL based upon what the user wants to do
+//
+$url = '';
+if( $this->type == 'item_id' ){
+    // The user has choosen to perform some type of item simularity
+
+    $url = 'http://www.algorithms.io/data/index/class/Algorithms/method/'.$this->algorithm.'/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/field_mapped_value/'.$this->field_mapped_value;
+}
+if( $this->type == 'user_id' ){
+    // The user has choosen to perform some type of user similarity
+
+    $url = 'http://www.algorithms.io/data/index/class/Algorithms/method/'.$this->algorithm.'/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/field_mapped_value/'.$this->field_mapped_value.'/neighborhoodSize/'.$this->neighborhoodSize;
+}
+
+//
+// Get the recommendations from the recommendation server
+//
+$results = json_decode( file_get_contents( $url ), true );
+
+//print_r( $results );
+
+//
+// Map the recommendations back to the orig item name
+//
+$url_getArbitraryIdMapping = 'http://www.algorithms.io/data/index/class/Mapping/method/getArbitraryIdMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq;
+
+$getArbitraryIdMapping = json_decode( file_get_contents( $url_getArbitraryIdMapping ), true );
+
+//print_r( $getArbitraryIdMapping );
+
+//
+// Get the field mapping
+//
+$url_getUserFields = 'http://www.algorithms.io/data/index/class/Mapping/method/getUserFields/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq;
+
+$getUserFields = json_decode( file_get_contents( $url_getUserFields ), true );
+
+//
+// Get the original source file so we can augment the returned data with the rest of the data
+//
+$source_datafile_url = 'http://www.algorithms.io/data/index/class/DataSources/method/getSourceFile/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq;
+
+$source_datafile = json_decode( file_get_contents( $source_datafile_url ), true );
+
+//
+// Output the results
+//
+$outputDataArray = array();
+
+if( $this->algorithm == 'runItemSimilarityNoPrefEvaluator' || $this->algorithm == 'runUserSimilarityNoPrefEvaluator' ){
+
+    echo 'Evaluator score: ' . $results['value'];
+} else {
+    //  Output the results with the real item named mapped back
+    foreach( $results as $aRow ){
+
+        foreach( $getArbitraryIdMapping as $aMapping ){
+
+            if( $aMapping['type'] == 'item_id' ){
+
+                if( $aMapping['field_mapped_value'] == $aRow['id'] ){
+
+                    $additionalInfo = searchForItem( $source_datafile['data'], $getUserFields[0]['field_item_id'], $aMapping['field_original_name'] ); 
+                    //print_r( $additionalInfo );
+
+                    $tempRow = array();
+
+                    foreach( $additionalInfo as $key=>$val ){
+
+                        $tempRow[$key] = $val;
+                    }
+
+                    $tempRow['Value'] = $aRow['value'];
+
+                    // Search if this user has purchased this item before
+                    $priorPurchases = matchUserToItem( $source_datafile['data'], $getUserFields[0]['field_user_id'], $this->customer_name, $getUserFields[0]['field_item_id'], $additionalInfo[$getUserFields[0]['field_item_id']] );
+                    if( count( $priorPurchases ) > 0 ){
+                        $tempRow['hasPurchased'] = 'true';
+                    } else {
+                        $tempRow['hasPurchased'] = 'false';
+                    }
+                
+                    array_push( $outputDataArray, $tempRow );
+                }
+            }
+        }
+    }
+}
+
+// Output JSON
+echo json_encode( $outputDataArray );
+
+
+function searchForItem( $source_datafile, $searchField, $item ){
+    // Search for an item through the datafile and return this row
+
+    $returnVal = array();
+
+    foreach( $source_datafile as $aRow ){
+
+        if( $aRow[$searchField] == $item ){
+
+            $returnVal = $aRow;
+            break;
+        }
+    }
+    return $returnVal;
+}
+function matchUserToItem( $source_datafile, $userField, $user, $itemField, $item ){
+    // Search if a user matches an item
+
+    $returnVal = array();
+
+    foreach( $source_datafile as $aRow ){
+    
+        if( $aRow[$userField] == $user && $aRow[$itemField] == $item ){
+
+            $returnVal = $aRow;
+            break;
+        }
+    }
+    return $returnVal;
+}
+?>

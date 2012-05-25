@@ -1,0 +1,89 @@
+<?php
+
+set_time_limit ( 600 );
+
+echo 'Logged in as: '. $this->username.'<br/>';
+echo '<a href="/login/logout">Logout</a><br/><br/>';
+
+// This retrieves all the files this user owns
+$content = file_get_contents( "http://www.algorithms.io/api/v1/class/DataSources/method/files/authToken/".$this->authToken );
+$results = json_decode( $content, true );
+ 
+//print_r( $results );
+
+echo '
+<p>
+<b>Usage:</b><br/>
+1) Upload a file<br/>
+2) Map - The mapping tells the system which column is used for the 3 things it needs - user_id, item_id, preference<br/>
+3) Create Map - This will use the Mapping that the user has entered in and then generate out a recommendation file that the mahout recommendation engine can consume to generate recommenations based on this data<br/>
+
+<br/>
+Optional: 
+Segment Data - This will segment the data in this file by the column the user has indicated and create new files based on the segmentation.  It will go through the file on this column and for every unique item in this field it will create a bucket (aka file) for it.  Once this operation is completed you should see a new file for each bucket in the file list that it has created.
+</p>
+';
+
+echo '<a href="/photos2/uploadfile/authToken/'.$this->authToken.'">Upload a File</a><br/>';
+echo '<a href="/photos2/recommendations">Get Recommendations</a><br/>';
+echo '<a href="/photos2/bulkdelete">Bulk Delete</a><br/>';
+echo '<a href="/photos2/bulkprovision">Bulk Provision</a><br/><br/>';
+
+echo '<table border="1">';
+echo '<tr>
+        <td>Search and Replace</td>
+        <td>CSV to JSON</td>
+        <td>Field Map</td>
+        <td>Create Arbitrary Mapping</td>
+        <td>isLoaded - Map</td>
+        <td>isLoaded - Create Mapping</td>
+        <td>Segment Data</td>
+        <td>Combine File</td>
+        <td>Get File Attribe</td>
+        <td>Get Field Map</td>
+        <td>Get Arbitrary Mapping</td>
+        <td>Get Rec</td>
+        <td>datasource id seq</td>
+        <td>type</td>
+        <td>location</td>
+        <td>filesystem_name</td>
+        <td>friendly_name</td>
+        <td>friendly_description</td>
+        <td>version</td>
+        <td>ip_address</td>
+        <td>size</td>
+        <td>datetime_created</td>
+        <td>datetime_modified</td> 
+        <td>Delete File</td>';
+
+foreach( $results['data'] as $aRow ){
+
+    echo '<tr>';
+    echo '<td><a href="/photos2/searchandreplace/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Go</a></td>';
+    echo '<td><a href="https://www.algorithms.io/api/v1/class/DataSourceManipulations/method/csvToJson/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Convert</a></td>';
+    echo '<td><a href="/photos2/map/authToken/'.$this->authToken.'/id_seq/'.$aRow['id_seq'].'">Map</a></td>';
+    echo '<td><a href="https://www.algorithms.io/api/v1/class/ArbitraryMaping/method/createXToIdMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Create Map</a></td>';
+    echo '<td><a href="http://www.algorithms.io/api/v1/class/Mapping/method/isLoadedUserFieldsMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Get Status</a></td>';
+    echo '<td><a href="http://www.algorithms.io/api/v1/class/Mapping/method/isLoadedArbitraryIdMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Get Status</a></td>';
+    echo '<td><a href="/photos2/segmentdata/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Segment Data</a></td>';
+    echo '<td><a href="/photos2/combinedata/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Combine With</a></td>';
+    echo '<td><a href="http://www.algorithms.io/api/v1/class/DataSources/method/getAFile/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Get</a></td>';
+    echo '<td><a href="http://www.algorithms.io/api/v1/class/Mapping/method/getUserFields/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Get</a></td>';
+    echo '<td><a href="http://www.algorithms.io/api/v1/class/Mapping/method/getArbitraryIdMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Get</a></td>';
+    echo '<td><a href="/photos2/queryitem/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Get</a></td>';
+    echo '<td>' . $aRow['id_seq'] . '</td>';
+    echo '<td>' . $aRow['type'] . '</td>';
+    echo '<td>' . $aRow['location'] . '</td>';
+    echo '<td><a href="http://www.algorithms.io/data/index/class/DataSources/method/getSourceFile/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">' . $aRow['filesystem_name'] . '</a></td>';
+    echo '<td>' . $aRow['friendly_name'] . '</td>';
+    echo '<td>' . $aRow['friendly_description'] . '</td>';
+    echo '<td>' . $aRow['version'] . '</td>';
+    echo '<td>' . $aRow['ip_address'] . '</td>';
+    echo '<td>' . $aRow['size'] . '</td>';
+    echo '<td>' . $aRow['datetime_created'] . '</td>';
+    echo '<td>' . $aRow['datetime_modified'] . '</td>';
+    echo '<td><a href="http://www.algorithms.io/api/v1/class/DataSources/method/deleteAFile/authToken/'.$this->authToken.'/datasource_id_seq/'.$aRow['id_seq'].'">Delete</a></td>';
+    echo '</tr>';
+}
+
+?>

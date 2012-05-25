@@ -1,0 +1,41 @@
+<?php
+
+//
+// Build URL based upon what the user wants to do
+//
+$url = '';
+if( $this->type == 'item_id' ){
+    // The user has choosen to perform some type of item simularity
+
+    $url = 'http://www.algorithms.io/api/v1/class/Algorithms/method/'.$this->algorithm.'/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/field_mapped_value/'.$this->field_mapped_value;
+}
+if( $this->type == 'user_id' ){
+    // The user has choosen to perform some type of user similarity
+
+    $url = 'http://www.algorithms.io/api/v1/class/Algorithms/method/'.$this->algorithm.'/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/field_mapped_value/'.$this->field_mapped_value.'/neighborhoodSize/'.$this->neighborhoodSize;
+}
+//echo $url.'<br/><br/>';
+
+//
+// Get the Item Recommendation
+//
+echo '<h1>Recommendation for: '.$this->part_name.$this->customer_name.'</h1><br/>';
+
+$content = file_get_contents( $url );
+$recommendations = json_decode( $content, true );
+
+foreach( $recommendations['data'] as $aRecommendation ){
+
+    // Get the reverse mapping from the arbitrary id to the part number
+    $url = 'http://www.algorithms.io/api/v1/class/Mapping/method/getArbitraryFieldOriginalNameValueByMappedValue/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/field_mapped_value/'.$aRecommendation['id'].'/type/item_id';
+    $content = file_get_contents( $url );
+    $reversed_map = json_decode( $content, true );
+    //print_r( $reversed_map );
+
+    if( isset( $reversed_map['data'][0]['field_original_name'] ) )
+        echo $reversed_map['data'][0]['field_original_name'] . '<br/>';
+
+}
+
+
+?>

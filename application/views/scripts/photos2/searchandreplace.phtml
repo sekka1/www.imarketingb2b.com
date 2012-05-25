@@ -1,0 +1,15 @@
+<h2>Search and Replace</h2>
+
+<?php
+
+echo '<form method="POST" action="https://www.algorithms.io/api/v1/class/DataSourceManipulations/method/searchAndReplaceColumnCSV">';
+echo '<input type="hidden" name="authToken" value="'.$this->authToken.'"/>';
+echo 'File Id:<input type="text" name="datasource_id_seq" value="'.$this->datasource_id_seq.'"><br/>';
+echo 'Column:<input type="text" name="column"/><br/>';
+echo 'Search (regex):<input type="text" name="search"/><br/>';
+echo 'Replace Text:<input type="text" name="replace"/><br/>';
+echo '<input type="submit" name="submit" value="submit"/><br/>';
+echo '</form>';
+
+
+?>

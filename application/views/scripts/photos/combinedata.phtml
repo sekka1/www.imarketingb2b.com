@@ -1,0 +1,37 @@
+<p>Add this file to:</p>
+
+<?php
+
+if( is_array( $this->addTo_datasource_id_seq ) ){
+    // The user has checked off the checkbox.  Can do the appending to file
+
+    // For each check box append this file to those files
+    foreach( $this->addTo_datasource_id_seq as $aFile_id ){
+
+        $url = 'http://www.algorithms.io/data/index/class/DataSources/method/appendToSourceFile/authToken/'.$this->authToken.'/source_datasource_id_seq/'.$aFile_id.'/addition_datasource_id_seq/'.$this->datasource_id_seq; 
+
+        $content = file_get_contents( $url );
+
+        echo 'Added this file '.$this->datasource_id_seq.' to this file ' . $aFile_id . ' outcome: ' . $content . '<br/>';
+    }
+
+}
+
+$content = file_get_contents( "http://www.algorithms.io/data/index/class/DataSources/method/files/authToken/".$this->authToken );
+$fileList = json_decode( $content, true );
+//print_r( $fileList );
+
+echo '<form mothod="POST" action="http://www.imarketingb2b.com/photos/combinedata/authToken/'.$this->authToken.'">';
+echo '<input type="hidden" name="datasource_id_seq" value="'.$this->datasource_id_seq.'"/>';
+echo '<input type="hidden" name="authToken" value="'.$this->authToken.'"/>';
+
+// Output Checkboxes of all files this can be combined with
+foreach( $fileList as $aFile ){
+
+    echo '<input type="checkbox" name="addTo_datasource_id_seq[]" value="'.$aFile['id_seq'].'"/>'.$aFile['friendly_name'].'<br/>';
+}
+
+echo '<input type="submit" value="submit"/><br/>';
+echo '</form>';
+
+?>

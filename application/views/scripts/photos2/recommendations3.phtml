@@ -1,0 +1,150 @@
+<?php
+
+if( $this->submit == '' ){
+    // User has not submitted anything.  Show a form and ask for an item and the segment
+
+    // This retrieves all the files this user owns
+    $content = file_get_contents( "http://www.algorithms.io/data/index/class/DataSources/method/files/authToken/".$this->authToken );
+    $file_list = json_decode( $content, true );
+
+    //print_r( $file_list );
+
+    // Form to ask user for what they want to get recommendations for
+    echo '<h2>Get Recommendations</h2>';
+    echo '<form method="GET" action="/photos2/recommendations">';
+    echo '<b>Item Recommendation Input:<b/><br/>';
+    echo 'Part Number:<input type="text" name="item"/><br/>';
+
+    // Output file list for segments
+    echo 'Segment File:<select name="datasource_id_seq">';
+    foreach( $file_list as $aFile ){
+
+//        if( $aFile['type'] == 'Auto Generated - Segment' )
+        if(  preg_match( '/^Auto Generated/', $aFile['type'] ) )
+            echo '<option value="'.$aFile['id_seq'].'">'.$aFile['friendly_description'].'</option>';
+
+    }
+    echo '</select><br/>';
+
+    // Output file list for the category
+    echo '<br/><br/><b>Category Recommendation Input:<b/><br/>';
+    echo 'Category File:<select name="category_datasource_id_seq">';
+    foreach( $file_list as $aFile ){
+
+        if( $aFile['type'] == 'category' )
+            echo '<option value="'.$aFile['id_seq'].'">'.$aFile['friendly_description'].'</option>';
+
+    }
+    echo '</select><br/>';
+
+    // Output file list for the Application mapping
+    echo '<br/><br/><b>Application Mapping Input:<b/><br/>';
+    echo '<!--Application: <input type="text" name="application_name" />-->
+        Application File: <select name="application_datasource_id_seq">';
+    foreach( $file_list as $aFile ){
+
+        if( $aFile['type'] == 'application-mapping' )
+            echo '<option value="'.$aFile['id_seq'].'">'.$aFile['friendly_description'].'</option>';
+
+    }
+    echo '</select><br/>';
+
+    echo '<br/><input type="submit" name="submit" value="Get Recommendations"/>';
+
+    echo '</form>';
+}
+
+//
+// User has submited an item and a segment.  Show them the recommendations
+//
+if( $this->submit == 'Get Recommendations' ){
+
+    //
+    // Get the Category Recommendation
+    //
+        echo '<h2>Category Recommendations For: '.$this->item.'</h2>';
+
+        // This part is to search for the category name given having an item name
+        $url = 'http://www.algorithms.io/api/v1/class/CSVFiles/method/searchForItemAndReturnRow/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->category_datasource_id_seq.'/column/INTERNAL_PART_NUMBER/item/'.$this->item.'/range/first';
+
+        $content = file_get_contents( $url );
+        $search_results = json_decode( $content, true );
+
+        if( count( $search_results['data']['matches'] ) > 0 ){
+            // There were matches found
+
+            // Location of the 'item'
+            $key_location = array_search( 'category', $search_results['data']['headers'] );
+
+            // Perform the search and recommendation on this 'item' 
+
+            // Get all the field mapping for this datasource id (aka file)
+            $url = 'http://www.algorithms.io/data/index/class/Mapping/method/getArbitraryIdMappingSearch/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->category_datasource_id_seq.'/type/item_id/item/'.urlencode( $search_results['data']['matches'][0][$key_location] );
+
+            $content = file_get_contents( $url );
+            $field_mapping = json_decode( $content, true );  
+
+            //
+            // Get the recommendation for the Item
+            //
+            if( count( $field_mapping ) > 0 ){
+
+                // Get recommendation URL
+                // Only using the first one that is returned
+                $url = 'http://www.algorithms.io/api/action/class/Algorithms/method/simItemLogLikelihoodNoPref/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->category_datasource_id_seq.'/field_mapped_value/'.$field_mapping[0]['field_mapped_value'];
+
+                $content = file_get_contents( $url );
+                $recommendations = json_decode( $content, true );
+                //print_r( $recommendations );
+
+                // Map the arbitrary ID back to the item number for each results
+                // Only going to display the top 5 results
+                $count = 0;
+                foreach( $recommendations['data'] as $aRecommendation ){
+
+                    // Get the reverse mapping from the arbitrary id to the part number
+                    $url = 'http://www.algorithms.io/api/v1/class/Mapping/method/getArbitraryFieldOriginalNameValueByMappedValue/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->datasource_id_seq.'/field_mapped_value/'.$aRecommendation['id'].'/type/item_id';
+                    $content = file_get_contents( $url );
+                    $reversed_map = json_decode( $content, true );
+
+                    echo $reversed_map['data'][0]['field_original_name'] . '<br/>';
+
+                    // Only get the top 5
+                    //if( $count == 5 )
+                    // break;
+                    $count++;
+                }
+
+            }
+
+        }
+
+
+    //
+    // Get Application Mapping
+    //
+    // Given an application_name, it just outputs all the part numbers associated with it
+    
+    if( $this->application_name != '' ){
+
+        echo '<h2>Item Recommendations For: '.$this->application_name.'</h2>';
+
+        // URL to get the file:
+        $url = 'http://www.algorithms.io/data/index/class/DataSources/method/getSourceFile/authToken/'.$this->authToken.'/datasource_id_seq/'.$this->application_datasource_id_seq;
+
+        $content = file_get_contents( $url );
+        $application_data = json_decode( $content, true );
+
+        foreach( $application_data['data'] as $aRow ){
+
+            if( strtolower( $aRow['Friendly Market'] ) == strtolower( $this->application_name ) ){
+
+                echo $aRow['INTERNAL_PART_NUMBER'] . '<br/>';
+            }
+        }
+    }
+
+
+}
+
+?>

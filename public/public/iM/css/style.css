@@ -1,0 +1,367 @@
+@charset "utf-8";
+/* CSS Document */
+@font-face {
+    font-family: 'HelveticaNeueLT57CnCondensed';
+    src: url('../fonts/helveticaneuelt-condensed-webfont.eot');
+    src: url('../fonts/helveticaneuelt-condensed-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/helveticaneuelt-condensed-webfont.woff') format('woff'),
+         url('../fonts/helveticaneuelt-condensed-webfont.ttf') format('truetype'),
+         url('../fonts/helveticaneuelt-condensed-webfont.svg#HelveticaNeueLT57CnCondensed') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'MyriadProRegular';
+    src: url('../fonts/myriadpro-regular-webfont.eot');
+    src: url('../fonts/myriadpro-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/myriadpro-regular-webfont.woff') format('woff'),
+         url('../fonts/myriadpro-regular-webfont.ttf') format('truetype'),
+         url('../fonts/myriadpro-regular-webfont.svg#MyriadProRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'HelveticaMedium';
+    src: url('../fonts/hv_____-webfont.eot');
+    src: url('../fonts/hv_____-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/hv_____-webfont.woff') format('woff'),
+         url('../fonts/hv_____-webfont.ttf') format('truetype'),
+         url('../fonts/hv_____-webfont.svg#HelveticaMedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'HelveticaBold';
+    src: url('../fonts/hvb____-webfont.eot');
+    src: url('../fonts/hvb____-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/hvb____-webfont.woff') format('woff'),
+         url('../fonts/hvb____-webfont.ttf') format('truetype'),
+         url('../fonts/hvb____-webfont.svg#HelveticaBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+body {margin:0px; padding:0px; background:#022466 url(../images/body-bg.jpg) repeat-x 0 0; font-family:Arial, Helvetica, sans-serif; font-size:14px; line-height:16px; color:#535353; outline:none;}
+h1, h2, h3, h4, h5, h6, p, span, label, form, input, li, ol, dl, ul, br, img, div, textarea, checkbox, radio, button, textarea, select, hr, a { margin:0px; padding:0px;}
+img{ border:none;}
+input, textarea, select {font-family:Arial, Helvetica, sans-serif; font-size:12px; line-height:14px;}
+.fl {float:left}
+.fr {float:right}
+.cl, clear {clear:both; line-height:0; height:0; font-size:0;}
+a{outline:none; text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* Note: Make HTML 5 elements block-level for consistent styling */
+header, nav, article, footer, address { display:block; }
+/* Sections */
+
+/**************************************** layout starts ************************************************/
+.layout {width:100%;}
+/*----------------- header starts -----------------------*/
+.header-outer {width:100%; background:#ffffff; padding-top:33px; min-height:98px;}
+header {width:1000px; margin:0 auto}
+header .logo {float:left; padding:25px 0 0 35px}
+header .top-right {float:right; padding-right:26px;}
+header .register {font-size:12px; color:#333333; background:url(../images/top-register-bottom-line.jpg) no-repeat bottom right;  line-height:26px; float:right}
+header .register ul{padding:0px; margin:0px; list-style-type:none;}
+header .register li {float:right; padding-left:15px;}
+header .register li.brdr-right {line-height:26px; position:relative; width:66px; z-index:99; background:url(../images/top-register-sep.png) no-repeat right 5px; padding-right:2px;}
+header .register li.brdr-right a { padding:0 10px; float:right; position:relative; z-index:999}
+header .register li:hover.brdr-right a{background:url(../images/signin-hover-bg.png) left top no-repeat; line-height:26px; z-index:9999; position:relative}
+header .register li a { font-size:14px; color:#ff9900; font-family:"HelveticaNeueLT57CnCondensed", Arial, Helvetica, sans-serif}
+header nav {padding:12px 0 0; float:right; font-family:"HelveticaNeueLT57CnCondensed", Arial, Helvetica, sans-serif}
+header nav ul {list-style:none;}
+header nav ul li {float:left; padding-left:11px;}
+header nav ul li a {color:#ebedbb; display:block;  background:url(../images/menu-bg.jpg) repeat-x 0 0; font-size:16px; line-height:30px; color:#919296; padding:0px 10px 0; border:1px solid #fff;}
+header nav ul li a:hover, header nav ul li a.cur {border:1px solid #ebebeb; text-decoration:none}
+
+/*----------------- header ends -----------------------*/
+
+/*----------------- submenu starts -----------------------*/
+.submenu-outer {width:100%; background:#333333; padding:32px 0 0;  font-family:"HelveticaNeueLT57CnCondensed", Arial, Helvetica, sans-serif}
+.submenu { width:1000px; margin:0 auto}
+.submenu ul { list-style:none; padding-left:40px;}
+.submenu ul li {float:left; padding-right:1px;}
+.submenu ul li a { font-size:16px; color:#919296; line-height:18px; padding:0; height:26px; float:left; padding:12px 20px 0 20px; }
+.submenu ul li a:hover, .submenu ul li a.cur {text-decoration:none; background:#fff;}
+
+/*----------------- submenu  ends -----------------------*/
+
+
+/*----------------- body starts -----------------------*/
+.body-outer {width:100%; background:#fff}
+.inner-body {width:1000px; margin:0 auto; padding:33px 0 39px; position:relative}
+
+/******************************************* home page css ***********************************************/
+.homebody-outer {width:100%; background:#fff url(../images/homebody-bg.png) left bottom repeat-x;}
+.homebody-body{width:1000px; margin:0 auto; padding:0px; font-family:'HelveticaMedium', arial;}
+.homebody-body .banner{width:998px; border:1px solid #d9d8d8; height:412px; background:#d6d6d6 url(../images/banner-bg.png) left bottom repeat-x;}
+.homebody-body .banner .weltxt{width:444px; padding:30px 0 0 34px; float:left; position:relative; z-index:99}
+.homebody-body .banner .weltxt h1{display:block; padding:0px 0 10px 0px; font-family:'MyriadProRegular', arial; color:#0436a7; font-size:35px; line-height:40px; font-weight:normal;}
+.homebody-body .banner .weltxt span{font-family:"HelveticaBold", Arial, Helvetica, sans-serif; font-size:35px; line-height:36px; font-weight:bold; color:#0436a7; display:block; padding:0 0 10px 0px;}
+.homebody-body .banner .weltxt p{color:#333333; font-size:16px; padding:0px 0 15px 0px; line-height:20px;}
+.homebody-body .banner .picture{display:block; float:right; position:relative; margin-left:-30px; z-index:9; margin-top:4px;}
+.homebody-body .featuredOn{width:1000px; height:190px; background:url(../images/shodow-bg.png) center 0px no-repeat;}
+.homebody-body .featuredOn .txtDiv{width:245px; display:block; float:left; padding:50px 0 0 31px;}
+.homebody-body .featuredOn .txtDiv h2{font-family:"HelveticaBold", Arial, Helvetica, sans-serif; font-size:22px; line-height:24px; font-weight:bold; color:#ff9900; display:block;}
+.homebody-body .featuredOn .txtDiv p{color:#fff; font-size:12px; font-family:arial, Helvetica, sans-serif; padding:0px 0 5px 0px; line-height:20px;}
+.homebody-body .featuredOn .logoarea{width:722px; padding:0px; margin-top:45px; float:right;}
+.casestudie-outer{width:100%; background:#fff;}
+.casestudie-outer .case-body{width:1000px; margin:0px auto;}
+.casestudie-outer .case-study{width:439px; padding:45px 40px 20px 45px; background:url(../images/gradient-line.png) right center no-repeat;}
+.casestudie-outer .case-study h2{font-family:"HelveticaBold", Arial, Helvetica, sans-serif; font-size:30px; line-height:32px; font-weight:bold; color:#09358e; display:block; padding:0 0 20px 0px;}
+.casestudie-outer .case-study h2 a{font-family:"HelveticaBold", Arial, Helvetica, sans-serif; font-size:30px; line-height:32px; font-weight:bold; color:#09358e; display:block; padding:0 0 0px 0px;}
+
+.casestudie-outer .case-study ul {list-style:none}
+.casestudie-outer .case-study li { font-size:16px; color:#333333; line-height:22px; font-family:"HelveticaMedium", Arial, Helvetica, sans-serif;}
+.casestudie-outer .case-study li img {float:left; margin-right:10px; margin-bottom:10px;}
+.casestudie-outer .case-study li p{display:block; padding-bottom:10px;}
+.casestudie-outer .case-study li a {width:auto; float:left; display:block; background:url(../images/view-arrow.gif) right 8px  no-repeat; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#09358e; padding:0 15px 0 0px; font-weight:bold; text-decoration:none}
+.casestudie-outer .case-study li a:hover {text-decoration:none}
+.casestudie-outer .testimonial{width:449px; padding:0px;}
+.casestudie-outer .testimonial .avatar{width:auto; padding:0px 0 15px 0px; float:left;}
+.casestudie-outer .testimonial h2{font-family:"HelveticaBold", Arial, Helvetica, sans-serif; float:left; font-size:30px; line-height:32px; font-weight:bold; color:#09358e; display:block; padding:33px 0 20px 5px;}
+.casestudie-outer .testimonial p{display:block; background:url(../images/invertedcoma-1.jpg) left top no-repeat;font-family:"HelveticaMedium", Arial, Helvetica, sans-serif; font-style:italic; font-size:18px; padding:14px 0 20px 29px; margin-left:15px;}
+.casestudie-outer .testimonial p span{background:url(../images/invertedcoma-2.jpg) right bottom no-repeat; line-height:26px; padding:0px 35px 14px 0px;}
+.casestudie-outer .testimonial .user{display:block; font-family:Georgia, "Times New Roman", Times, serif; font-size:18px; color:#152b4c; line-height:20px; padding:0 0 0 15px;}
+.casestudie-outer .testimonial .user span{ font-size:18px; color:#fda44b; line-height:20px;}
+
+/******************************************* home page css ends ***********************************************/
+
+/******************************************* file listing starts ***********************************************/
+
+.inner-body h3 { font-family:"HelveticaBold", Arial, Helvetica, sans-serif; color:#333333; font-size:25px; font-weight:bold; line-height:27px; padding-bottom:12px;}
+.file-listing-container {padding:5px; border:1px solid #e1e1e1; width:988px;}
+.file-listing {padding:0}
+.file-listing ul { list-style:none}
+.file-listing table tr {background:#dddddf; min-height:48px; font-size:12px; color:#000000; font-family:Arial, Helvetica, sans-serif; padding:0; float:left; width:100%;}
+.file-listing table tr.alt { background:#eeeeef;}
+.file-listing table tr.heading { background:url(../images/file-listing-heading-bg.jpg) repeat-x 0 0; font-weight:bold; color:#fff}
+.file-listing table tr.heading:hover { background:url(../images/file-listing-heading-bg.jpg) repeat-x 0 0;}
+.file-listing table tr:hover { background:url(../images/file-listing-hover-bg.jpg) repeat-x 0 0;}
+.file-listing table tr.selected { background:url(../images/file-listing-hover-bg.jpg) repeat-x 0 0;}
+.file-listing table td {padding:0 25px; border-right:1px solid #fff; height:48px; text-align:center;}
+.file-listing table td.status { text-align:left;}
+.file-listing table td.name { text-align:left; width:200px;}
+.file-listing table td.date-create {border-right:0; text-align:center; width:150px;}
+.file-listing table td.date-create a {display:block; color:#000; width:100%; height:25px; line-height:25px;}
+.file-listing table td.date-create a:hover {background:url(../images/bottom-arrow.png) no-repeat right 6px;text-decoration:none}
+.file-listing table td.date-create a.arrow-top {background:url(../images/top-arrow.png) no-repeat right 6px;}
+.file-listing table td.date-create .time { color:#0436a7 }
+.file-listing table .brdr-right { border-right:1px solid #bebebf; display:inline; padding-right:7px; margin-right:10px;}
+/******************************************* file listing ends ***********************************************/
+
+.mendropdown {width:202px; position:absolute; z-index:999; padding:0; display:none; margin:10px 0 0 -25px}
+.dropdownlink{width:auto; text-align:left; background:#ff9900; padding:5px 0}
+.dropdownlink ul {margin:0px; list-style-type:none; padding:0px;}
+.dropdownlink ul li{ font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#333333}
+.file-listing table td.date-create .dropdownlink ul li a {color:#333333; padding:3px 15px; display:block; background:none; width:auto;}
+.dropdownlink ul li a span.image {display:inline-block; width:26px;}
+.dropdownlink ul li a:hover {background:#fdca7d; text-decoration:none}
+/*----------------- body ends -----------------------*/
+
+/*--------------------------- footer starts -------------------------------*/
+.footer-outer { width:100%}
+footer {width:1000px; margin:0 auto; padding-top:31px; min-height:119px;}
+footer .footer-links-container {float:left; width:550px; padding-left:40px}
+footer .btm-logo {float:right;}
+footer p.copyrights {font-size:14px; font-family:Georgia, "Times New Roman", Times, serif; color:#8192b3; line-height:16px; padding-top:14px; }
+footer ul.btm-links {font-size:14px; font-family:Arial, Helvetica, sans-serif; color:#fff; line-height:14px; list-style:none;}
+footer ul.btm-links li {padding:0 22px; display:inline; border-left:1px solid #fff}
+footer ul.btm-links li.first {padding-left:0; border-left:0}
+footer ul.btm-links li a {color:#fff; }
+/*--------------------------- footer ends -------------------------------*/
+
+/******************************************* algo pricing starts ***********************************************/
+.submenu-outer h2 { padding:0 0 32px 35px; font-size:25px; line-height:27px; color:#ffffff; font-family:"HelveticaBold", Arial, Helvetica, sans-serif; }
+.content-div {padding:0 25px 5px 35px; }
+.content-div p {padding-bottom:25px}
+.algo-pricing-container {width:943px; padding-left:28px;}
+.algo-pricing-container .heading-bg { background:url(../images/algo-pricing-heading-bg.png) no-repeat 0 0; min-height:52px; padding:58px 9px 0; width:925px}
+.algo-pricing-container .repeat-bg { background:url(../images/algo-pricing-repeat-y.png) repeat-y 0 0; padding:0 9px; width:925px}
+.algo-pricing-container .bottom-curve { background:url(../images/algo-pricing-bottom-curve.png) no-repeat bottom left; height:45px;}
+.algo-pricing-container .colum {float:left; width:230px; text-align:center; font-size:14px; color:#333333; line-height:16px; padding:22px 0; font-family:'HelveticaMedium', arial;}
+.algo-pricing-container .sep-row.padding1 .colum.top-padding {padding-top:24px;}
+.algo-pricing-container .sep-row { background:url(../images/algo-pricing-btm-sep.png) repeat-x bottom left; padding-bottom:2px;}
+.algo-pricing-container .heading-bg .colum {padding:0; color:#333333; font-size:25px; line-height:27px;}
+.algo-pricing-container .heading-bg .colum span { font-weight:bold; font-family:"HelveticaNeueLT57CnCondensed", Arial, Helvetica, sans-serif}
+.algo-pricing-container .sep-row.last { background:none; padding-bottom:0;}
+.algo-pricing-container .sep-row.padding1 .colum { padding:14px 0;}
+.algo-pricing-container .sep-row.last .colum {padding:17px 0 0;}
+.algo-pricing-container .colum h3 {font-family:"HelveticaBold", Arial, Helvetica, sans-serif; font-size:18px; line-height:20px; padding-bottom:0}
+.algo-pricing-container .colum h3.free { padding:22px 0 0; font-size:20px;}
+.algo-pricing-container .heading-bg .colum h3 { font-size:20px; line-height:22px; font-weight:normal; font-family:'HelveticaMedium', arial;}
+.algo-pricing-container .heading-bg .colum h3.size1 { font-size:19px; line-height:22px; font-weight:normal; margin-top:-5px;}
+/******************************************* algo pricing ends ***********************************************/
+
+
+/******************************************* products starts ***********************************************/
+
+.products-container {padding:0 0 40px;}
+.products-container .irecommengine {float:left; padding-right:8px; text-align:center}
+.products-container .irecommengine.no-padding {padding-right:0;}
+.products-container .irecommengine a { margin-top:19px; display:inline-block}
+
+/******************************************* products ends ***********************************************/
+
+
+/* About us */
+.inner-body h4 { font-family:"HelveticaBold", Arial, Helvetica, sans-serif; color:#666666; font-size:20px; font-weight:bold; line-height:25px; padding:20px 0 40px 0; font-style:italic}
+
+/* Case Study */
+.case-study, case-detail {display:block; width:940px; margin:0 auto}
+.case-study h2 {font-family:"HelveticaNeueLT57CnCondensed", Arial, Helvetica, sans-serif; font-size:35px; color:#0436a7; display:block; line-height:normal; padding-bottom:30px }
+.case-study h2 strong {font-family:"HelveticaBold", Arial, Helvetica, sans-serif;}
+.case-study .case-column {width:915px; height:142px; padding:14px 12px 12px 12px; background:url(../images/case-column-bg.png) 0 0 no-repeat scroll; margin-bottom:15px}
+.case-study .case-column .case-image {width:236px; height:138px; background:url(../images/case-image-bg.png) 0 0 no-repeat scroll; display:block; float:left}
+.case-study .case-column .case-image table {width:100%; border:0; }
+.case-study .case-column .case-image table td { height:138px; vertical-align:middle; width:236px; }
+.case-content {padding:10px 10px 0 25px;  width:630px }
+.case-content h4 {font-size:18px; display:block; font-family:"HelveticaBold", Arial, Helvetica, sans-serif; color:#333333; padding:0; font-style:normal }
+.case-content h4 a{font-size:18px; display:block; font-family:"HelveticaBold", Arial, Helvetica, sans-serif; float:none; color:#333333; padding:0; font-style:normal; background:none; margin-top:0px; }
+.case-content p {font-size:14px; font-family:Arial, Helvetica, sans-serif; color:#333333; line-height:18px; }
+.case-content a {padding:0 13px 0 0; background:url(../images/arrow-case.png) 100% 5px no-repeat scroll; color:#08358c; font-family:Arial, Helvetica, sans-serif; font-size:12px; margin:35px 0 0 0; font-weight:bold; float:left}
+
+.case-nav-outer {width:100%; display:block;  padding:15px 0 50px 0 }
+.case-nav {padding:0; float:right; width:270px }
+.case-nav ul {list-style:none ; padding:0; margin:0;  }
+.case-nav ul p {float:left; font-size:14px; color:#000; padding-right:5px}
+.case-nav ul li {float:left;}
+.case-nav ul li a {color:#000; padding:0 4px;}
+
+/* case Detail */
+.case-back  {width:100%; text-align:right; margin:40px 0 10px 0; display:block}
+.acase-detail { background:url(../images/arrow-detail.png) 0 4px no-repeat scroll; color:#08358c; font-family:Arial, Helvetica, sans-serif; font-size:12px;  font-weight:bold; padding:0 65px 0 15px }
+.cased-container {width:939px; margin:0px auto; display:block; position:relative}
+.cased-top {background:url(../images/cased-top.png) 0 0 no-repeat scroll; width:939px; padding-top:7px}
+.cased-bot {background:url(../images/cased-bot.png) 0 100% no-repeat scroll; width:939px; padding-bottom:8px}
+.cased-rpt {background:url(../images/cased-rpt.jpg) 0 0 repeat-x scroll; width:857px; padding:0 40px 40px 40px; border-right:solid 1px #f0eeee; border-left:solid 1px #f0eeee }
+
+
+
+.cased-image {width:236px; height:138px; background:url(../images/case-image-bg.png) 0 0 no-repeat scroll; position:absolute; top:-66px; left:15px}
+.cased-image table {width:100%; border:0; }
+.cased-image table td { height:138px; vertical-align:middle; width:236px; }
+
+.case-pdf {height:60px; background:url(../images/case-pdf.jpg) 0 100% repeat-x scroll; width:635px; display:block; margin-bottom:35px }
+.case-pdf ul {list-style:none; padding:30px 30px 0 0; }
+.case-pdf ul li {float:left; color:#bcbcbc; font-family:Arial, Helvetica, sans-serif; padding:0 3px  }
+.case-pdf ul li a { color:#ff9933;  }
+
+.cased-rpt h4 {font-style:normal; padding:0 0 9px 0; display:block }
+.cased-rpt p {color:#333333; font-family:Arial, Helvetica, sans-serif; font-size:14px; padding-bottom:28px; line-height:17px}
+
+/* Jobs */
+.jobs-column {width:100%; padding-bottom:18px; border-bottom:solid 1px #dcdbdb; margin-bottom:20px; }
+.jobs-column h5 {font-size:14px; color:#0436a7; font-weight:bold; font-family:Arial, Helvetica, sans-serif; padding:0 0 10px 10px }
+.jobs-column p {font:normal 13px/17px Arial, Helvetica, sans-serif; color:#333333; padding:0 10px 10px 10px }
+.jobs-column p a, .applynow a {padding:0 0 0 10px}
+
+.job-header {border-bottom:solid 1px #dcdbdb; height:70px; margin-bottom:15px;}
+.back-list {padding:13px 10px 0 0 }
+ 
+.applynow {border-top:solid 1px #dcdbdb; padding-top:20px; margin-top:10px }
+
+.applybox {width:835px; height:404px; background:url(../images/apply-box.png) 0 0 no-repeat scroll; margin:10px auto; display:block }
+.applybox h5 {padding:25px 0 0 25px; color:#0436a7; font-size:15px; }
+.form {margin:15px 0 0 45px; display:block}
+.form .row {float:left; display:block; margin-bottom:7px; width:100% }
+.form label {width:90px; height:32px; display:block; float:left; color:#333333; font-family:Arial, Helvetica, sans-serif; line-height:32px; font-weight:bold}
+.form span {width:221px; height:32px; display:block; float:left; background:url(../images/txt-bg.png) 0 0 no-repeat scroll; margin-right:25px}
+.form span input[type=text] {border:0; height:28px; line-height:28px; width:211px; padding:0 5px; color:#333333; font-family:Arial, Helvetica, sans-serif; margin:2px 0 0 0 }
+.form textarea {display:block;
+	padding:5px 0 0 10px;
+	width:551px;
+	height:97px;
+	font-size:13px;
+	color:#333;
+	background:url(../images/textarea.png) 0 0 no-repeat scroll;
+	border:0;
+	resize:none;
+	overflow:auto;
+	float:left
+}
+.btn_submit {width:98px; height:34px; background:url(../images/btn_submit.png) 0 0 no-repeat scroll; display:block; cursor:pointer; text-indent:-3333px; border:0; font-size:0px; line-height:0px; float:left; margin-left:90px }
+.cancel-btn {width:98px; height:34px; background:url(../images/cancel-btn.png) 0 0 no-repeat scroll; display:block; cursor:pointer; text-indent:-3333px; border:0; font-size:0px; line-height:0px; float:left; margin-left:10px }
+
+
+
+
+
+/* css for browse buttom */
+.fileinputs {
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+	 
+}
+.fakefile {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 999;
+}
+.fakefile img {
+    cursor: default;
+    float: left;
+    height: 31px;
+    position: relative;
+    z-index: 999999;
+	width:96px;
+	cursor:pointer; margin-left:5px;
+}
+.fileinputs .file {
+    cursor: pointer;
+    height: 28px;
+    margin: 2px 0 0 0px;
+    opacity: 0;
+    padding: 0;
+    position: relative;
+    text-align: left;
+    width:auto;
+    z-index: 9999;
+	-moz-opacity: 0;
+      filter: alpha(opacity: 0);
+	 /* float:right; */
+}
+.fileinputs .hidden {
+    float: right;
+	 
+	
+}
+
+/* 16.12.2011 */
+
+.fakefile input {
+    background: url(../images/browse-file.png) 0 0 no-repeat scroll!important;
+    border: 0;
+    float: left;
+    font-family: arial;
+
+    margin: 0;
+    height:32px;
+    width: 461px!important;
+	padding:0px!important;
+	font-size:13px;
+	color:#353b48;
+}
+
+header .register li:hover.brdr-right .signinBox{display:block; z-index:999;}
+.signinBox{width:254px; padding:0px; display:none; margin:0; position:absolute; top:22px; left:-123px}
+.signinBox .topbg{width:254px; padding:0px; display:block; background:url(../images/sign-in-topbg.png) left top no-repeat; height:3px; line-height:0px; font-size:0px;}
+.signinBox .midbg{width:252px; padding:0px 1px; background:url(../images/sign-in-midbg.png) left top repeat-y;}
+.signinBox .container{display:block; min-height:180px; background:#dfdfdf url(../images/sign-in-midbg2.png) left bottom repeat-x; padding:0 16px 16px 16px;}
+.signinBox .container h2{display:block; color:#0436a7; font-family:"HelveticaBold", Arial, Helvetica, sans-serif; font-size:15px; padding:20px 0 12px 0px;}
+.signinBox .container .row{display:block; background:url(../images/field-bg.png) left top no-repeat; height:29px; width:221px; margin-bottom:10px; padding:3px 0 0 5px;}
+.signinBox .container .row .inputtxt{width:215px; color:#919296; padding:0px; font-size:12px; height:25px; background:#fff; border:none; line-height:25px; font-style:italic}
+.signinBox .container .row2{display:block; margin-bottom:10px;}
+.signinBox .container .row2 input{float:left; width:auto;}
+.signinBox .container .row2 span{float:right; width:auto; display:block; color:#0436a7; font-size:11px; font-weight:bold;}
+.signinBox .container .row2 span a{display:block; color:#0436a7; font-size:11px; text-decoration:none; border-right:none; background:none; margin:0}
+header .register li:hover.brdr-right .row2 a {background:none; margin:0; line-height:13px; padding:0}
+.signinBox .bottbg{width:254px; display:block; padding:0px; background:url(../images/sign-in-bottbg.png) left top no-repeat; height:3px; line-height:0px; font-size:0px;}
+

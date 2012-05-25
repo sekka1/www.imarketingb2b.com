@@ -1,0 +1,86 @@
+<?php
+set_time_limit(0);
+?>
+
+<h2>Bulk Provision</h2>
+<p>
+For each file it will:<br/>
+1) Map the fields<br/>
+2) Combine with another file<br/>
+3) Create the Arbitrary Mapping<br/>
+</p>
+
+<?php
+
+if( $this->submit == '' ){
+    // User has not submitted anything.  Show the input options
+
+    // Get all the files this user owns
+    $content = file_get_contents( "http://www.algorithms.io/data/index/class/DataSources/method/files/authToken/".$this->authToken );
+    $fileList = json_decode( $content, true );
+    //print_r( $fileList );
+
+    echo '<form mothod="POST" action="/photos2/bulkprovision">';
+
+    echo 'field_user_id: <input type="text" name="field_user_id"/><br/>';
+    echo 'field_item_id: <input type="text" name="field_item_id"/><br/>';
+    echo 'field_preference: <input type="text" name="field_preference"/><br/>';
+    echo '<br/>Files To bulk Provion:<br/>';
+
+    // Output checkboxes of all files that the user wants to bulk provision
+    foreach( $fileList as $aFile ){
+
+        echo '<input type="checkbox" name="bulkProvision_datasource_id_seq[]" value="'.$aFile['id_seq'].'"/>'.$aFile['friendly_description'].'<br/>';
+    }
+
+    echo '<br/><br/>Files to combine with each builk provision file with:<br/>';
+    // Output Checkboxes of all files this can be combined with
+    foreach( $fileList as $aFile ){
+
+        echo '<input type="checkbox" name="addTo_datasource_id_seq[]" value="'.$aFile['id_seq'].'"/>'.$aFile['friendly_description'].'<br/>';
+    }
+
+    echo '<input type="submit" name="submit" value="submit"/><br/>';
+    echo '</form>';
+}elseif( $this->submit == 'submit' ){
+    // Perform the requested options on each file
+
+    foreach( $this->bulkProvision_datasource_id_seq as $aFile_id ){
+
+        //
+        // 1) Combine with another file
+        //
+        foreach( $this->addTo_datasource_id_seq as $combine_id_seq ){
+
+            $url = 'https://www.algorithms.io/api/v1/class/CombineFiles/method/append/authToken/'.$this->authToken.'/source_datasource_id_seq/'.$aFile_id.'/addition_datasource_id_seq/'.$combine_id_seq;
+
+            echo $url.'<br/>';
+            $content = file_get_contents( $url );
+            echo $content . '<br/>';
+        }
+
+        //
+        // 2) Map the data
+        //
+            $url = 'http://www.algorithms.io/data/index/class/Mapping/method/userFields/authToken/'.$this->authToken.'/datasource_id_seq/'.$aFile_id.'/field_user_id/'.urlencode( $this->field_user_id ).'/field_item_id/'.urlencode( $this->field_item_id ).'/field_preference/'.urlencode( $this->field_preference );
+
+            echo $url.'<br/>';
+            $content = file_get_contents( $url );
+            echo $content . '<br/>';
+
+        //
+        // 3) Create the Arbitrary Mapping
+        //
+            $url = 'https://www.algorithms.io/api/v1/class/ArbitraryMaping/method/createXToIdMapping/authToken/'.$this->authToken.'/datasource_id_seq/'.$aFile_id; 
+
+            echo $url.'<br/>';
+            $content = file_get_contents( $url );
+            echo $content . '<br/>';
+
+            echo '<br/><br/>';
+    }
+
+
+}
+
+?>

@@ -1,0 +1,10 @@
+<form method="POST" enctype="multipart/form-data" action="https://www.algorithms.io/api/v1/class/DataSources/method/upload">
+<input type="hidden" name="authToken" value="<?php echo $this->authToken; ?>"/>
+File to upload: <input type="file" name="theFile"><br>
+File Type:<input type="text" name="type"/><br/>
+Filename: <input type="text" name="friendly_name"/><br/>
+description: <input type="text" name="friendly_description"/><br/>
+version: <input type="text" name="version"/><br/>
+<input type="submit" value="submit"/>
+
+</form>

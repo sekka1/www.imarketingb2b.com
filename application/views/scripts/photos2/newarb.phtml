@@ -1,0 +1,11 @@
+<?php
+
+$url = "https://www.algorithms.io/api/action/class/ArbitraryMaping/method/createXToIdMapping/authToken/".$this->authToken."/datasource_id_seq/".$this->datasource_id_seq;
+
+echo $url . '<br/><br/>';
+
+$content = file_get_contents( $url );
+
+echo $content;
+
+?>
